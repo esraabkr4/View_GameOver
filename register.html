@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap"
+        rel="stylesheet">
+    <!-- styles -->
+    <link href="./css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+    <link href="./css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body class="">
+    <section id="login" class="mt-5 p-5 w-75 mx-auto shadow-lg">
+        <div class="container">
+            <h1 class="text-info text-center">Smart Login System</h1>
+            <form class="row g-4 z-3">
+                <div class="col-12">
+                    <input type="text" class="form-control bg-transparent text-white" name="user name" id="inputName"
+                        placeholder="Enter Your Name">
+                    <span class="text-secondary">name must be at least 2 characters</span>
+                </div>
+                <div class="col-12">
+                    <input type="email" class="form-control bg-transparent text-white" name="user email" id="inputEmail"
+                        placeholder="Enter Your Email">
+                    <span class="text-secondary">example@example.com</span>
+                </div>
+                <div class="col-12">
+                    <input type="password" class="form-control bg-transparent text-white" name="user password"
+                        id="inputPassword" placeholder="Enter Your Password">
+                    <span class="text-secondary">start with capital leter then from 7 to 15 characters</span>
+                </div>
+                <div class="col-12 text-danger text-center d-none" id="validationText">
+                </div>
+                <div class="col-12 mt-5">
+                    <button type="button" id="RegisterBTN" class="btn btn-outline-info w-100">Sign Up</button>
+                </div>
+            </form>
+            <h5 class="text-white my-3 text-center">You have an account? <a class="text-white"
+                    href="./index.html">Signin</a></h5>
+        </div>
+    </section>
+
+
+
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="./js/index.js"></script>
+</body>
+
+</html>

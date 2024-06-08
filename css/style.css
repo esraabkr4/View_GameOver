@@ -1,0 +1,12 @@
+body {
+    background: #24353f;
+}
+
+body,
+h1 {
+    font-family: "Titillium Web", sans-serif;
+}
+
+.form-control::-webkit-input-placeholder {
+    color: rgb(150, 148, 148);
+}
