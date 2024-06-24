@@ -1,125 +1,90 @@
-var userName = document.getElementById('inputName');
-var userEmail = document.getElementById('inputEmail');
-var userPass = document.getElementById('inputPassword');
-var registerBTN = document.getElementById('RegisterBTN');
-var loginBTN = document.getElementById('loginBTN');
-var validationText = document.getElementById('validationText');
-var userInfo = [];
-//// move localStorage content to userInfo array if exist
-if (Boolean(localStorage.getItem('userInfoArr')) == false) {
-    userInfo = [];
-} else {
-    userInfo = JSON.parse(localStorage.getItem('userInfoArr'));
-}
-////check if it is register page or login page
-if (registerBTN != undefined) {
-    registerBTN.addEventListener('click', function (e) {
-        submitFunction(e.target)
-    });
-} else if (loginBTN != undefined) {
-    loginBTN.addEventListener('click', function (e) {
-        submitFunction(e.target)
-    });
-
-}
-
-////submit login or register form
-function submitFunction(ele) {
-    debugger;
-    ////submit register form
-    if (ele == registerBTN) {
-        if (validateInputs(userName) && validateInputs(userEmail) && validateInputs(userPass)) {
-            var userObj = { name: userName.value, email: userEmail.value, pass: userPass.value, isCurrent: false }
-            userInfo.push(userObj);
-            localStorage.setItem('userInfoArr', JSON.stringify(userInfo));
-
-            window.location.href = "index.html";
-        }
-        ////submit login form
-    } else if (ele == loginBTN) {
-        var index = loginCheck(inputEmail.value, inputPassword.value);
-        ////email and pass are match
-        if (index != -1) {
-            userInfo.forEach(function (item, index) {
-                userInfo[index].isCurrent = false;
-            });
-            userInfo[index].isCurrent = true;
-            localStorage.setItem('userInfoArr', JSON.stringify(userInfo));
-            window.location.href = "home.html";
-        }
-        ////email or pass not match
-        else {
-            validationText.innerHTML = "user email or password not match";
-            validationText.classList.replace('d-none', 'd-block');
-        }
-
-    }
+'use strict';
+const api_key = 'f7fdd6aa792047a382d195611242206';
+const weather_days = '2';
+let search_input = document.getElementById("search_input");
+let search_button = document.getElementById("search_button");
+let row = document.getElementById("row");
+let search_form = document.forms[0];
+let weather_arr = [];
+const dayName = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const day = dayName[new Date().getDay()];
+const formattedDate = new Date().toLocaleDateString('en-GB', {
+  day: 'numeric', month: 'long'
+}).replace(/ /g, '');
+view_weather();
 
 
-}
-//// validation all inputs
-function validateInputs(input) {
-    debugger;
-    var validateArr = {
-        inputName: /^\w{2,}$/,
-        inputEmail: /^[a-zA-Z0-9_\.\-]+\@[a-zA-Z]+\.com$/,
-        inputPassword: /^[A-Z].[a-zA-Z0-9_\.\-\*]{7,15}$/
-    }
-    ////check if any input is empty
-    if (!Boolean(userName.value) || !Boolean(inputEmail.value) || !Boolean(inputPassword.value)) {
-        validationText.innerHTML = 'All inputs are required';
-        validationText.classList.replace('d-none', 'd-block');
-        return false;
-        //// check if input match regular expression
-    } else if (!validateArr[input.getAttribute('id')].test(input.value)) {
-        validationText.innerHTML = `Invalid ${input.getAttribute('name')}`;
-        validationText.classList.replace('d-none', 'd-block');
-        return false;
-    } else {
-        //// check if email exist before
-        if (input == inputEmail) {
-            // userInfo.forEach(element => {});
-            for (var i = 0; i < userInfo.length; i++) {
-                if (userInfo[i].email == input.value) {
-                    validationText.innerHTML = `${input.getAttribute('name')} is exist before`;
-                    validationText.classList.replace('d-none', 'd-block');
-                    return false;
-                    break
-                }
-            }
+search_form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  view_weather();
 
-
-
-        }
-        // validationText.innerHTML = `Success`;
-        // validationText.classList.replace('text-danger', 'text-success');
-        // validationText.classList.replace('d-none', 'd-block');
-        validationText.classList.replace('d-block', 'd-none');
-
-        return true;
-
-
-    }
-
-
-
-
-}
-function loginCheck(email, pass) {
-    debugger;
-    var index = -1;
-    if (userInfo != null) {
-        // userInfo.forEach(element => {});
-        for (var i = 0; i < userInfo.length; i++) {
-            if (userInfo[i].email == email && userInfo[i].pass == pass) {
-                index = i;
-                break;
-            }
-        }
-    }
-    return index;
-
-}
-document.forms[0].addEventListener('submit', function (e) {
-    e.preventDefault;
 });
+
+
+async function view_weather(country){
+  weather_arr = await search_fun(search_input.value);
+  display_fun();
+}
+
+
+async function search_fun(country) {
+  if (!country) {
+    country = 'Cairo';
+  }
+  let url = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${api_key}&q=${country}&days=${weather_days}`);
+  return await url.json();
+}
+
+
+function display_fun() {
+  let { location, current, forecast } = weather_arr;
+  let { temp_c, condition } = current;
+  let { icon, text } = condition;
+
+  var box = `<div class="col-md-4 shadow-lg">
+            <div class="card text-white card_one">
+                <div class="card-header d-flex justify-content-between card_two">
+                  <small class="text-secondary">${day}</small>
+                  <small class="text-secondary">${formattedDate}</small>
+                </div>
+                <div class="card-body">
+                  <h4 class="opacity-75">${location?.name}</h4>
+                  <h5 class="card-title display-1 fw-bolder">${temp_c} oc</h5>
+                  <img src="https:${icon}" class="card-img-top w-25 h-25" alt="...">
+                  <span class="text-info">${text}</span>
+                  <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                  <small class="text-secondary"><i class="fa-solid fa-umbrella"></i> 20%</small>
+                  <small class="text-secondary"><i class="fa-solid fa-wind"></i> 18km/h</small>
+                  <small class="text-secondary"><i class="fa-solid fa-compass"></i> East</small>
+                </div>
+              </div>
+        </div>`
+  console.log(typeof (forecast))
+  forecast?.forecastday.forEach((element,index) => {
+    let { day } = element;
+    let { maxtemp_c, mintemp_c, condition } = day;
+    let { icon, text } = condition;
+    box += `<div class="col-md-4 shadow-lg">
+            <div class="card text-white px-0 d-flex align-items-center ${(index%2==0)?"card_two":"card_one"}">
+                <div class="card-header card_two w-100 text-center">
+                  <small class="text-secondary">${dayName[new Date().getDay() + (index+1)]}</small>
+                </div>
+                <div class="card-body">
+                <img src="https:${icon}" class="card-img-top w-50 h-50" alt="...">
+
+                  <h5 class="card-title display-6 fw-bolder">${maxtemp_c} oC</h5>
+                  <h5 class="card-title display-6">${mintemp_c} o</h5>
+                  <span class="text-info">${text}</span>
+                  <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+                </div>
+                
+              </div>
+        </div>`
+  });
+
+  row.innerHTML = box;
+}
+
+// get user current location
