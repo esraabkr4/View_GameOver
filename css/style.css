@@ -1,46 +1,106 @@
-body{
-    background-color: #1e202b;;
-}
-header{
-    background-image: url('../images/banner.png');
-    background-position: top;
-    background-repeat: no-repeat;
-    /* background-size: cover; */
-}
-:root{
-    --main-color:#009ad8;
-}
-.navbar-dark, .navbar[data-bs-theme=dark] {
-    --bs-navbar-color: rgba(255, 255, 255, 1);
-    --bs-navbar-hover-color: rgba(0, 154, 216, 1);
-    --bs-navbar-active-color: #009ad8;
-    --bs-navbar-brand-hover-color: rgba(0, 154, 216, 1);
+body {
+    font-family: "Comfortaa", cursive;
+    background-color: #272b30;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.navbar-brand {
+    font-family: "Nerko One", cursive;
+}
 
-.nav-link{
+header img {
+    height: 150px;
+    background-position: center;
+    object-fit: cover;
+}
+
+.card {
+    background-color: #272b30;
+    border: 1px solid #000;
+    filter: grayscale(70%);
     transition: all 400ms;
-    border-radius: 50px;
-    border: 3px solid transparent;
+    cursor: pointer;
+    border-radius: 5px;
 }
-.nav-link:focus, .nav-link:hover,.nav-link.active {
-    border-color: var(--main-color);
- }
- .form-control::-webkit-input-placeholder {
-    color: rgba(0, 154, 216, 0.4) !important;
- }
- .card_one{
-    background-color: #2a3242;
- }
- .card_two{
-    background-color: #262936;
- }
- .butt{
-    background-color: var(--main-color);
-    border-color: var(--main-color);
-    right: 10px;
-    top: 36%;
- }
- footer{
-    background-color: #262936;;
- }
+
+/*.card{
+    
+    filter: brightness(0.5) saturate(0%); */
+
+
+
+
+/* width: 80%;
+    margin: auto; 
+}*/
+.card:hover {
+    filter: grayscale(0);
+    filter: none;
+    transform: scale(1.03);
+}
+
+.navbar-brand img {
+    width: 40px;
+    height: 40px;
+}
+
+nav .container {
+    background-color: #3a497b !important;
+}
+
+.nav-item .nav-link.active,
+.nav-item .nav-link:hover {
+    color: #09c !important;
+    transition: all 500ms;
+}
+
+p {
+    font-size: 14px;
+    line-height: 21px;
+    color: #fff;
+}
+
+/* loader styles */
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, .4);
+    /*padding-top:150px;*/
+    padding-top: 20px;
+    z-index: 99999;
+}
+
+.loader div {
+    border: 16px solid #f3f3f3;
+    /* Light grey */
+    border-top: 16px solid #3498db;
+    /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
